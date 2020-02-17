@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<script src="jquery.min.js"></script>
+<body>
+
+	<h1>Weather day</h1>
+	
+	<div>
+	<select id="city" class="form-control input-md">
+		<option value="0">Pilih City</option>
+	</select>	  
+	</div>
+	
+	<button id="submitButton">How's the weather?</button>
+
+	<p>Results</p>
+	<div id="result"></div>
+	
+	<script>
+		$(document).ready(function() {
+			$.getJSON('city.list2.json', function(data) {
+				var output = '';
+				$.each(data, function(key, value) {
+					$('#city').append('<option value="'+value.id+'">'+value.name+'</option>');
+				});
+			});	
+
+			$("#submitButton").click(function() {
+				var city = $('#city').val();
+				$.ajax({
+					type: "GET",
+					url: "http://api.openweathermap.org/data/2.5/weather?id="+city+"&appid=ab3c729cdddbf5f3d7d1cafafbc3a896",
+					dataType: "json",
+					success: function(response) {
+						console.log(response);
+						var html_to_append = '';
+						html_to_append += '<p> wind speed: ' + response.wind.speed + '</p>';
+						html_to_append += '<p> cloud: ' + response.clouds.all + '</p>';
+						html_to_append += '<p> timezone: ' + response.timezone + '</p>';
+						html_to_append += '<p> humidity: ' + response.main.humidity + '</p>';
+						$("#result").html(html_to_append);
+					}
+				});
+			});
+			
+		});
+			
+	</script>
+</body>
+</html>
