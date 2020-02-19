@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
 	<script src="jquery.min.js"></script>
+	<style>
+		body {
+			background-image: url('https://lh3.googleusercontent.com/wn5MBSgssRywEC54-O60Xw0i_lE23Tsve4uW2LVC3ynCy1Nb_yPgMK891PvRQYT12mepeQLe63ODxL4YDSGLfqfd0GtnLBY_aZrqNtOur7DR9ddgw0EpQfIlic7O89TzOeM6SG8R4KDE-GqKBDMip7vRDU1TShH7S4dlcxlqeJ8vciAWYJK03RoT8olFYLlvhDGxGXUfo0LOxDSwl8cnP75xi1XAsHa3QbvR1cM9yrOFDoY_F3PaTN0wIJqISOqoWaTHqfJXw-CLFc076quoV7Oinwl94TWIz8GHCsRDrd_SBweoEcF08Hw1aqvbSUOTnczYy5ybNwY51LK613xY19Y4cy62gA0aIzWQK_0bWpPcF1FyDpouhiUHfIl5bVG0CTUJpsazvQ2MEwZwqsU0y7MJBE7OqJOXfS3eSUnEmfB7rOcaDmID4FdSRmD3SmrOS93DpRgyCWjP0hv38hNc-J1yfX4KGryKcbd4NG-jBp-YjHLuy2OpJXOQLi_EA3RoUwctIbEEs5VVaLE16ZKVTKI2k_iK5jHxOjzxk5NYvjvVMe1GebOrGNvGEDH-N51kHPgRfqXULYAkqOqd9-M8h8C3dIbfjq6H7ngYRDDW4vpaFLi9xAg9QzQV7mu-WACyV6GYuazh8Vc-bu7yj-_opztJKd6kUX4cvuVMIrhWRVF-IXXgDF7Vh60=w1412-h794-no');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			//background-size: 100% 100%;
+		}
+	</style>
 <body>
-
-	<h1>Weather day</h1>
-	
-	<div>
-	<select id="city" class="form-control input-md">
-		<option value="0">Pilih City</option>
-	</select>	  
-	</div>
-	
-	<button id="submitButton">How's the weather?</button>
-
-	<p>Results</p>
-	<div id="result"></div>
-	
+	<center>
+		<h1>Weather day</h1>
+		<div>
+		<p>Choose the city :</p>
+		<select id="city" class="form-control input-md">
+			<option value="0">Pilih City</option>
+		</select>	  
+		</div>
+		
+		<!-- <button id="submitButton">How's the weather?</button> -->
+		
+		<p>Results</p>
+		<div id="result"></div>
+	</center>	
 	<script>
 		$(document).ready(function() {
 			$.getJSON('city.list2.json', function(data) {
@@ -24,8 +32,9 @@
 					$('#city').append('<option value="'+value.id+'">'+value.name+'</option>');
 				});
 			});	
-
-			$("#submitButton").click(function() {
+			
+			$('#city').on('change', function() {
+			//$("#submitButton").click(function() {
 				var city = $('#city').val();
 				$.ajax({
 					type: "GET",
@@ -34,10 +43,10 @@
 					success: function(response) {
 						console.log(response);
 						var html_to_append = '';
-						html_to_append += '<p> wind speed: ' + response.wind.speed + '</p>';
-						html_to_append += '<p> cloud: ' + response.clouds.all + '</p>';
-						html_to_append += '<p> timezone: ' + response.timezone + '</p>';
-						html_to_append += '<p> humidity: ' + response.main.humidity + '</p>';
+						html_to_append += '<p> wind speed: ' + response.wind.speed + '</br>';
+						html_to_append += 'cloud: ' + response.clouds.all + '</br>';
+						html_to_append += 'timezone: ' + response.timezone + '</br>';
+						html_to_append += 'humidity: ' + response.main.humidity + '</br></p>';
 						$("#result").html(html_to_append);
 					}
 				});
